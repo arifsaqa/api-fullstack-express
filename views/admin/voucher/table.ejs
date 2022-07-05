@@ -3,19 +3,23 @@
     <tr>
       <th>No</th>
       <th>Name</th>
+      <th>Quantity</th>
+      <th>Price</th>
       <th>Action</th>
     </tr>
   </thead>
   <tbody>
-    <% for(let i = 0; i < categories.length; i++){ %>
+    <% for(let i = 0; i < vouchers.length; i++){ %>
       <tr>
         <td><%= i+1 %></td>
-        <td><%= categories[i].name %></td>
+        <td><%= vouchers[i].name %></td>
+        <td><%= vouchers[i].cointQuantity %></td>
+        <td><%= vouchers[i].price %></td>
         <td>
           <form  
-          action="/category/delete/<%= categories[i]._id %>?_method=DELETE" 
+          action="/voucher/delete/<%= vouchers[i]._id %>?_method=DELETE" 
           method="post">
-            <a class="btn btn-warning" href="/category/edit/<%= categories[i]._id %>">
+            <a class="btn btn-warning" href="/voucher/edit/<%= vouchers[i]._id %>">
               <i class="fas fa-pencil-alt"></i> Edit</a>
             <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i> Hapus</button>
           </form>

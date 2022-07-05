@@ -13,7 +13,13 @@
                 <ol class="breadcrumb float-sm-right">
                   <li class="breadcrumb-item"><a href="/">Home</a></li>
                   <li class="breadcrumb-item"><a href="/category">Category</a></li>
-                  <li class="breadcrumb-item active">Create</li>
+                  <li class="breadcrumb-item active">
+                    <% if(typeof category!='undefined') { %>
+                      Edit
+                    <% } else { %>
+                      Create
+                    <% } %>   
+                  </li>
                 </ol>
               </div>
             </div>
@@ -26,15 +32,33 @@
             <div class="row">
               <div class="col-12">
                 <div class="card card-primary">
-                  <div class="card-header">Create Category</h3>
+                  <div class="card-header">
+                    <% if(typeof category!='undefined') { %>
+                      Edit Kategori <%= category.name %>
+                    <% } else { %>
+                      Create
+                    <% } %>    
+                    </h3>
                   </div>
                   <!-- /.card-header -->
                   <!-- form start -->
-                  <form action="/category/store" method="post">
+                  <form 
+                    
+                    <% if(typeof category!='undefined') { %>
+                      action="/category/update/<%= category._id %>?_method=PUT"
+                    <% } else { %>
+                      action="/category/store"
+                    <% } %>    
+                    method="post"
+                  >
                     <div class="card-body">
                       <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter name" required>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Enter name" required
+                        <% if (typeof category!='undefined') { %>
+                          value="<%= category.name %>"
+                        <% } %>
+                          >
                       </div>
                     </div>
                     <!-- /.card-body -->
