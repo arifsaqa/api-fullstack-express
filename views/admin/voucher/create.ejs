@@ -47,7 +47,6 @@
                       action="/voucher/store"
                     <% } %>    
                     method="post"
-                    
                   >
                     <div class="card-body">
                       <div class="form-group">
@@ -65,15 +64,6 @@
                             <option value="<%= category._id %>"><%= category.name %></option>
                             <%})%>
                         </select>
-                      </div>
-                      <!-- <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" name="qointName" class="form-control" id="qointName" placeholder="Enter name" required
-                        <% if (typeof voucher!='undefined') { %>
-                          value="<%= voucher.qointName %>"
-                        <% } %>
-                          >
-                      </div> -->
                        <div class="form-group">
                         <label>Nominal</label>
                         <div class="select2-purple">

@@ -14,7 +14,7 @@
         <td><%= i+1 %></td>
         <td><%= nominals[i].cointName %></td>
         <td><%= nominals[i].cointQuantity %></td>
-        <td><%= nominals[i].price %></td>
+        <td>Rp. <%= rupiahFormat(nominals[i].price) %></td>
         <td>
           <form  
           action="/nominal/delete/<%= nominals[i]._id %>?_method=DELETE" 

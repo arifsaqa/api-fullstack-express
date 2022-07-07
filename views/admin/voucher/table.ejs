@@ -2,9 +2,10 @@
   <thead>
     <tr>
       <th>No</th>
-      <th>Name</th>
-      <th>Quantity</th>
-      <th>Price</th>
+      <th>Game Name</th>
+      <th>Category</th>
+      <th>Nominal</th>
+      <th>Status</th>
       <th>Action</th>
     </tr>
   </thead>
@@ -13,8 +14,23 @@
       <tr>
         <td><%= i+1 %></td>
         <td><%= vouchers[i].name %></td>
-        <td><%= vouchers[i].cointQuantity %></td>
-        <td><%= vouchers[i].price %></td>
+        <td><%= vouchers[i]?.category?.name??'Unset' %></td>
+        <td>
+          <% vouchers[i]?.nominals?.forEach(nominal => { %>
+            <span class="badge badge-warning"><%= nominal.cointName %> <%= nominal.cointQuantity %></span>
+          <% }) %>
+        </td>
+        <td>
+          <% if(vouchers[i].status == 'Y') { %>
+            <span class="badge badge-success">
+              Active
+            </span>
+          <% } else {%>
+            <span class="badge badge-danger">
+              Unactive
+            </span>
+          <% } %> 
+        </td>
         <td>
           <form  
           action="/voucher/delete/<%= vouchers[i]._id %>?_method=DELETE" 

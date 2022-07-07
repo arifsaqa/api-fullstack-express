@@ -8,13 +8,14 @@ var app = require('../app');
 var debug = require('debug')('bwa-storage-server:server');
 var http = require('http');
 const db = require('../db');
+const { PORT } = require('../config');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+var port = normalizePort(PORT || '3000');
+app.set('port', PORT);
 
 /**
  * Create HTTP server.
@@ -32,6 +33,7 @@ db.on("error", (err) => {
 db.on("open", () => {
   server.listen(port, () => {
     console.log("DB and Server succeed");
+    console.log(`App running on http://localhost:${PORT}`);
   });
   server.on('error', onError);
   server.on('listening', onListening);

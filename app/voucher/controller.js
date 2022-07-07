@@ -10,7 +10,10 @@ const path = require('path');
 async function index(req, res) {
   try {
     const alert = getAlertMessage(req);
-    const vouchers = await Voucher.find();
+    const vouchers = await Voucher.find()
+      .populate('category')
+      .populate('nominals');
+    console.log(vouchers);
     res.render('admin/voucher/view_voucher', { vouchers, alert });
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/voucher');
@@ -21,7 +24,6 @@ async function index(req, res) {
 async function createVoucher(req, res) {
   const categories = await Category.find();
   const nominals = await Nominal.find();
-
   res.render('admin/voucher/create', {categories, nominals})
 }
 
@@ -76,7 +78,9 @@ async function storeVoucher(req, res) {
 async function editVoucher(req, res) {
   const { id } = req.params;
   const voucher = await Voucher.findOne({ _id: id });
-  res.render('admin/voucher/create', { voucher });
+  const categories = await Category.find();
+  const nominals = await Nominal.find();
+  res.render('admin/voucher/create', { voucher, categories, nominals })
 }
 
 async function updateVoucher(req, res) {

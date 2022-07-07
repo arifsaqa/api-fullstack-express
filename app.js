@@ -11,6 +11,7 @@ var categoryRouter = require('./app/category/router');
 var dashboardRouter = require('./app/dashboard/router');
 var nominalRouter = require('./app/nominal/router');
 var voucherRouter = require('./app/voucher/router');
+const rupiahFormat = require('./app/helpers/rupiahFormat');
 
 var app = express();
 
@@ -21,8 +22,10 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
-  cookie: { }
+  cookie: {}
 }));
+
+app.locals.rupiahFormat = rupiahFormat;
 app.use(flash());
 app.use(methodOverride('_method'));
 app.use(logger('dev'));
