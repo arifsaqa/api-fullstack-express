@@ -35,7 +35,7 @@
 </h3>
 </div>
 <!-- /.card-header -->
-<div class="card-body">
+<div class="card-body" id="table">
 <%- include ("./table.ejs") %>
 </div>
 <!-- /.card-body -->
@@ -53,3 +53,25 @@
 </div>
 <%- include ("../../partials/footer.ejs") %>
 <%- include ("../../partials/js.ejs") %>
+<script>
+  const updateStatus = (id) =>{
+    axios.patch( CURRENT_URL + `/update-status/${id}`)
+    .then((d)=>{
+      $("#ajaxSuccess").removeClass('d-none');
+      refresh_table();
+      $("#successMessage").text(d.data.message);
+      setTimeout(() => {
+        $("#ajaxSuccess").addClass('d-none');
+      }, 3000);
+    })
+    .catch((err)=>{
+      console.error(err);
+      $("#ajaxSuccess").removeClass('d-none');
+      refresh_table();
+      $("#successMessage").text("Oops something wrong when updating the voucher status");
+      setTimeout(() => {
+        $("#ajaxSuccess").addClass('d-none');
+      }, 3000);
+    })
+  };
+</script>

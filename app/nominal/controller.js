@@ -6,7 +6,11 @@ async function index(req, res) {
   try {
     const alert = getAlertMessage(req);
     const nominals = await Nominal.find();
-    res.render('admin/nominal/view_nominal', { nominals, alert });
+    if (req.headers.ajax) {
+      res.render('admin/nominal/table', { nominals, alert });
+    } else {
+      res.render('admin/nominal/view_nominal', { nominals, alert });
+    }
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/nominal');
     throw error;
@@ -21,7 +25,6 @@ function createNominal(req, res) {
 async function storeNominal(req, res) {
   try {
     const { cointName, cointQuantity, price } = req.body;
-    console.log('aaaaaaaaaaaa', req.body)
     const nominal = await Nominal({ cointName, cointQuantity, price });
     await nominal.save();
 

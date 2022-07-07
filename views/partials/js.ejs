@@ -46,17 +46,50 @@
 <script src="/adminlte/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="/adminlte/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <script src="/adminlte/plugins/select2/js/select2.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"
+  integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg=="
+  crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
-    $(function () {
+  $(function () {
+    $("#example1").DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true,
+      "responsive": true,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+  $('.select2').select2()
+  const ORIGIN = window.location.origin;
+  const CURRENT_URL = window.location.origin + window.location.pathname;
+
+  axios.defaults.headers.common['ajax'] = true;
+
+  const refresh_table = () => {
+    axios({ url: CURRENT_URL })
+      .then(({ data }) => {
+        $("#table").html(data);
+        //resetting datatables and select2
         $("#example1").DataTable({
-        "paging": true,
-        "lengthChange": true,
-        "searching": true,
-        "ordering": true,
-        "info": true,
-        "autoWidth": true,
-        "responsive": true,
-      });
+          "paging": true,
+          "lengthChange": true,
+          "searching": true,
+          "ordering": true,
+          "info": true,
+          "autoWidth": true,
+          "responsive": true,
+        });
         $('#example2').DataTable({
           "paging": true,
           "lengthChange": false,
@@ -66,8 +99,10 @@
           "autoWidth": false,
           "responsive": true,
         });
+        $('.select2').select2()
       });
-      $('.select2').select2()
+  };
+
 </script>
 </body>
 

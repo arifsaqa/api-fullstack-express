@@ -40,13 +40,14 @@
                     <% } %>    
                     </h3>
                   </div>
-                  <form enctype="multipart/form-data"
+                  <form 
+                  enctype="multipart/form-data"
                     <% if(typeof voucher!='undefined') { %>
                       action="/voucher/update/<%= voucher._id %>?_method=PUT"
                     <% } else { %>
                       action="/voucher/store"
                     <% } %>    
-                    method="post"
+                    method="POST"
                   >
                     <div class="card-body">
                       <div class="form-group">
@@ -61,7 +62,12 @@
                         <label>Category</label>
                         <select class="form-control select2" style="width: 100%;" name="category" data-placeholder="Choose Category">
                             <% categories.forEach(category=>{ %>
-                            <option value="<%= category._id %>"><%= category.name %></option>
+                            <option 
+                            value="<%= category?._id %>"
+                            <% if (typeof voucher !== 'undefined') {%> 
+                            <%= (voucher.category?._id.toString() === category?._id.toString()) && 'selected' %>
+                            <% } %> 
+                            ><%= category.name %></option>
                             <%})%>
                         </select>
                        <div class="form-group">
@@ -69,17 +75,34 @@
                         <div class="select2-purple">
                           <select class="form-control select2" multiple="multiple" style="width: 100%;" name="nominals" data-placeholder="Choose nominal">
                             <% nominals.forEach(nominal=>{ %>
-                              <option value="<%= nominal._id %>"><%= nominal.cointName %> <%= nominal.price %></option>
-                              <%})%>
+                              <option
+                              value="<%= nominal._id %>" 
+                               <% if (typeof voucher !== 'undefined') {%> 
+                                <%= voucher.nominals?.find(voucher_nominal => nominal?._id.toString() === voucher_nominal?._id.toString()) && "selected" %>
+                              <% } %> 
+                              >
+                              <%= nominal.cointName %> <%= nominal.cointQuantity %>
+                            </option>
+                              <% })%>
                             </select>
                         </div>
                       </div>
                        <div class="form-group">
                         <label for="image">Image</label>
-                        <input type="file" name="image" class="form-control" id="image" placeholder="Enter image" required
+                        <input type="file" name="image" class="form-control" id="image" placeholder="Enter image" 
+                        <% if(typeof voucher === "undefined") {%>
+                        required
+                        <% } %>  
                           >
                           <br>
-                          <img src="" alt="" id="imagePreview">
+                          <img id="imagePreview" 
+                          width="30%"
+                           <% if (typeof voucher !== "undefined" ) { %>
+                              src="http://localhost:9000/uploads/<%= voucher.thumbnail %>" alt="Foto <%= voucher.name %>"
+                            <% } else { %>
+                              src="" alt=""
+                            <% } %>
+                          >
                       </div>
                     </div>
                     <!-- /.card-body -->
@@ -104,7 +127,6 @@
             console.log(input.files);
             if (input.files && input.files[0]) {
               const reader = new FileReader();
-              const mediaSource = new MediaSource();
               reader.onload = (e)=>{
                 $("#imagePreview").attr('src', e.target.result);
                 $("#imagePreview").attr('width', '50%');
@@ -116,4 +138,6 @@
           $("#image").on("change", function(){
             readURL(this);
           });
+          
         </script>
+       

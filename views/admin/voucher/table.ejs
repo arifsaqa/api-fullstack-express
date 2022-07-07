@@ -35,9 +35,18 @@
           <form  
           action="/voucher/delete/<%= vouchers[i]._id %>?_method=DELETE" 
           method="post">
-            <a class="btn btn-warning" href="/voucher/edit/<%= vouchers[i]._id %>">
+          <% if(vouchers[i].status=='Y' ) { %>
+            <button class="btn btn-sm btn-danger" type="button" onclick="updateStatus('<%=vouchers[i]._id.toString()%>')">
+              Deactivate
+            </button>
+            <% } else {%>
+              <button class="btn btn-sm btn-success" type="button" onclick="updateStatus('<%=vouchers[i]._id.toString()%>')">
+                Activate
+              </button>
+              <% } %>
+            <a class="btn btn-sm btn-warning" href="/voucher/edit/<%= vouchers[i]._id %>">
               <i class="fas fa-pencil-alt"></i> Edit</a>
-            <button class="btn btn-danger" type="submit"><i class="fas fa-trash"></i> Hapus</button>
+            <button class="btn btn-sm btn-danger" type="submit"><i class="fas fa-trash"></i> Hapus</button>
           </form>
         </td>
       </tr>
