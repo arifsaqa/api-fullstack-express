@@ -9,7 +9,10 @@ async function index(req, res) {
     if (req.headers.ajax) {
       res.render('admin/nominal/table', { nominals, alert });
     } else {
-      res.render('admin/nominal/view_nominal', { nominals, alert });
+      res.render('admin/nominal/view_nominal', {
+        nominals, alert, title: 'Nominal',
+        name: req.session.user.name
+      });
     }
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/nominal');
@@ -19,7 +22,10 @@ async function index(req, res) {
 
 function createNominal(req, res) {
   // const { id } = req.body;
-  res.render('admin/nominal/create')
+  res.render('admin/nominal/create', {
+    title: 'Nominal',
+    name: req.session.user.name
+  })
 }
 
 async function storeNominal(req, res) {
@@ -39,7 +45,10 @@ async function storeNominal(req, res) {
 async function editNominal(req, res) {
   const { id } = req.params;
   const nominal = await Nominal.findOne({ _id: id });
-  res.render('admin/nominal/create', { nominal });
+  res.render('admin/nominal/create', {
+    nominal, title: 'Nominal',
+    name: req.session.user.name
+  });
 }
 
 async function updateNominal(req, res) {

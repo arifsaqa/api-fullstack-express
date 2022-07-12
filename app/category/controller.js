@@ -5,12 +5,15 @@ const { setAlertAndRedirect, getAlertMessage } = require('../helpers/alert');
 async function index(req, res) {
   try {
     const alert = getAlertMessage(req);
-    console.log(alert);
+
     const categories = await Category.find();
     if (req.headers.ajax) {
       res.render('admin/category/table', { categories, alert });
     } else {
-      res.render('admin/category/view_category', { categories, alert });
+      res.render('admin/category/view_category', {
+        categories, alert, title: 'Category',
+        name: req.session.user.name
+      });
     }
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/category');
@@ -19,7 +22,10 @@ async function index(req, res) {
 }
 
 function createCategory(req, res) {
-  res.render('admin/category/create')
+  res.render('admin/category/create', {
+    title: 'Category',
+    name: req.session.user.name
+  })
 }
 
 async function storeCategory(req, res) {
@@ -39,7 +45,10 @@ async function storeCategory(req, res) {
 async function editCategory(req, res) {
   const { id } = req.params;
   const category = await Category.findOne({ _id: id });
-  res.render('admin/category/create', { category });
+  res.render('admin/category/create', {
+    category, title: 'Category',
+    name: req.session.user.name
+  });
 }
 
 async function updateCategory(req, res) {

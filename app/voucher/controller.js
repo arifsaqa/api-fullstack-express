@@ -16,7 +16,10 @@ async function index(req, res) {
     if (req.headers.ajax) {
       res.render('admin/voucher/table', { vouchers, alert });
     } else {
-      res.render('admin/voucher/view_voucher', { vouchers, alert });
+      res.render('admin/voucher/view_voucher', {
+        vouchers, alert, title: 'Voucher',
+        name: req.session.user.name
+      });
     }
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/voucher');
@@ -27,7 +30,10 @@ async function index(req, res) {
 async function createVoucher(req, res) {
   const categories = await Category.find();
   const nominals = await Nominal.find();
-  res.render('admin/voucher/create', { categories, nominals })
+  res.render('admin/voucher/create', {
+    categories, nominals, title: 'Voucher',
+    name: req.session.user.name
+  })
 }
 
 async function storeVoucher(req, res) {
@@ -83,7 +89,10 @@ async function editVoucher(req, res) {
     .populate('category')
     .populate('nominals');
   const voucher_nominals = voucher.nominals;
-  res.render('admin/voucher/create', { voucher, categories, nominals })
+  res.render('admin/voucher/create', {
+    voucher, categories, nominals, title: 'Voucher',
+    name: req.session.user.name
+  })
 }
 
 async function updateVoucher(req, res) {

@@ -1,0 +1,96 @@
+<%- include ("../../partials/header.ejs") %>
+  <%- include ("../../partials/navbar.ejs") %>
+    <%- include ("../../partials/sidebar.ejs") %>
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>Payment Type</h1>
+              </div>
+              <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                  <li class="breadcrumb-item"><a href="/">Home</a></li>
+                  <li class="breadcrumb-item"><a href="/payment">Payment Type</a></li>
+                  <li class="breadcrumb-item active">
+                    <% if(typeof payment!='undefined') { %>
+                      Edit
+                    <% } else { %>
+                      Create
+                    <% } %>   
+                  </li>
+                </ol>
+              </div>
+            </div>
+          </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <% if(typeof payment!='undefined') { %>
+                      Edit Payment Type <%= payment.ownerName %>
+                    <% } else { %>
+                      Create
+                    <% } %>    
+                    </h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form 
+                    <% if(typeof payment!='undefined') { %>
+                      action="/payment/update/<%= payment._id %>?_method=PUT"
+                    <% } else { %>
+                      action="/payment/store"
+                    <% } %>    
+                    method="post"
+                  >
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="type">Type</label>
+                        <input type="text" name="type" class="form-control" id="type" placeholder="Enter payment type" required
+                        <% if (typeof payment!='undefined') { %>
+                          value="<%= payment.type %>"
+                        <% } %>
+                          >
+                      </div>
+                      <div class="form-group">
+                        <label>Banks</label>
+                        <div class="select2-purple">
+                          <select class="form-control select2" multiple="multiple" style="width: 100%;" name="banks" data-placeholder="Choose banks">
+                            <% banks.forEach(bank=>{ %>
+                              <option
+                              value="<%= bank._id %>" 
+                               <% if (typeof payment !== 'undefined') {%> 
+                                <%= payment.banks?.find(bank_v => bank?._id.toString() === bank_v?._id.toString()) && "selected" %>
+                              <% } %> 
+                              >
+                              <%= bank.ownerName %> <%= bank.bankName %>-<%= bank.bankNumber %>
+                            </option>
+                              <% })%>
+                            </select>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+      </div>
+      <%- include ("../../partials/footer.ejs") %>
+        <%- include ("../../partials/js.ejs") %>

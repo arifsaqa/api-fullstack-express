@@ -1,0 +1,47 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Type</th>
+      <th>Banks</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(let i = 0; i < payments.length; i++){ %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td><%= payments[i].type %></td>
+        <td>
+        <% payments[i]?.banks?.forEach(bank=> { %>
+          <span class="badge badge-warning">
+            <%= bank.ownerName %>
+              <%= bank.bankName %>-<%= bank.bankNumber %>
+          </span>
+          <% }) %>
+        </td>
+        <td>
+          <% if(payments[i].status == 'Y') { %>
+            <span class="badge badge-success">
+              Active
+            </span>
+          <% } else {%>
+            <span class="badge badge-danger">
+              Unactive
+            </span>
+          <% } %>
+        </td>
+        <td>
+          <form  
+          action="/payment/delete/<%= payments[i]._id %>?_method=DELETE" 
+          method="post">
+            <a class="btn btn-warning btn-sm" href="/payment/edit/<%= payments[i]._id %>">
+              <i class="fas fa-pencil-alt"></i> Edit</a>
+            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

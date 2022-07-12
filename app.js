@@ -7,11 +7,18 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 
+//helper for view
+const rupiahFormat = require('./app/helpers/rupiahFormat');
+
 var categoryRouter = require('./app/category/router');
 var dashboardRouter = require('./app/dashboard/router');
 var nominalRouter = require('./app/nominal/router');
 var voucherRouter = require('./app/voucher/router');
-const rupiahFormat = require('./app/helpers/rupiahFormat');
+var bankRouter = require('./app/bank/router');
+var paymentRouter = require('./app/payment/router');
+var usersRouter = require('./app/users/router');
+const { isLoginAdmin } = require('./app/middleware/auth');
+
 
 var app = express();
 
@@ -35,10 +42,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte')))
 
-app.use('/', dashboardRouter);
-app.use('/category', categoryRouter);
-app.use('/nominal', nominalRouter);
-app.use('/voucher', voucherRouter);
+app.use('/auth', usersRouter);
+app.use('/', isLoginAdmin, dashboardRouter);
+app.use('/dashboard', isLoginAdmin, dashboardRouter);
+app.use('/category', isLoginAdmin, categoryRouter);
+app.use('/nominal', isLoginAdmin, nominalRouter);
+app.use('/voucher', isLoginAdmin, voucherRouter);
+app.use('/bank', isLoginAdmin, bankRouter);
+app.use('/payment', isLoginAdmin, paymentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
