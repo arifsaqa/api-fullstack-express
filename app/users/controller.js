@@ -1,5 +1,6 @@
 const User = require('./model');
 const bcrypt = require('bcryptjs');
+const url = require('url');
 const { setAlertAndRedirect, getAlertMessage } = require('../helpers/alert');
 
 function viewSignin(req, res) {
@@ -40,7 +41,21 @@ async function signin(req, res) {
   }
 }
 
+const signOut = (req, res) => {
+  try {
+    req.session.destroy();
+    res.redirect('/auth/signin');
+  } catch (error) {
+    setAlertAndRedirect({ req, res }, 'Your input doesnt match our credentials', url.format({
+      protocol: req.protocol,
+      host: req.get('host'),
+      pathname: req.originalUrl
+    }));
+  }
+};
+
 module.exports = {
   viewSignin,
-  signin
+  signin,
+  signOut
 }
