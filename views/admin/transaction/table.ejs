@@ -1,0 +1,64 @@
+<table id="example2" class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Game Name</th>
+      <th>Item</th>
+      <th>Total Price</th>
+      <th>Status</th>
+      <th>Nama Player</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% for(let i = 0; i < transactions.length; i++){ %>
+      <tr>
+        <td><%= i+1 %></td>
+        <td>
+          <ul class="list-inline">
+            <li class="list-inline-item">
+              <img src="http://localhost:9000/uploads/<%=transactions[i]?.historyVoucherTopup?.thumbnail%>" alt="avatar" width="48px" height="48px">
+            </li>
+          </ul>
+          <%= transactions[i]?.historyVoucherTopup?.gameName %>
+          <br>
+          <%= transactions[i]?.historyVoucherTopup?.category %>
+        </td>
+        <td>
+          <%= transactions[i].historyVoucherTopup.coinName??'-' %>
+          <%= transactions[i].historyVoucherTopup.coinQuantity??'-' %>
+        </td>
+        <td>
+          Rp. <%= rupiahFormat(transactions[i].value??0) %>
+        </td>
+        <td>
+          <% if(transactions[i].status === 'pending') { %>
+            <span class="badge badge-warning">
+             <%=transactions[i].status%>
+            </span>
+          <% } else if (transactions[i].status === 'success') {%>
+            <span class="badge badge-success">
+              <%=transactions[i].status%>
+            </span>
+          <% } else { %>
+            <span class="badge badge-danger">
+              <%=transactions[i].status%>
+            </span>
+          <% } %>
+        </td>
+        <td>
+            <%= transactions[i]?.player?.name??'' %>
+        </td>
+        <td>
+          <form  
+          action="/payment/delete/<%= transactions[i]._id %>?_method=DELETE" 
+          method="post">
+            <a class="btn btn-warning btn-sm" href="/payment/edit/<%= transactions[i]._id %>">
+              <i class="fas fa-pencil-alt"></i> Edit</a>
+            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Hapus</button>
+          </form>
+        </td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>

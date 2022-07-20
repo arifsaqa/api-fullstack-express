@@ -17,6 +17,7 @@ var voucherRouter = require('./app/voucher/router');
 var bankRouter = require('./app/bank/router');
 var paymentRouter = require('./app/payment/router');
 var usersRouter = require('./app/users/router');
+var transactionRouter = require('./app/transaction/router');
 const { isLoginAdmin } = require('./app/middleware/auth');
 
 
@@ -50,6 +51,7 @@ app.use('/nominal', isLoginAdmin, nominalRouter);
 app.use('/voucher', isLoginAdmin, voucherRouter);
 app.use('/bank', isLoginAdmin, bankRouter);
 app.use('/payment', isLoginAdmin, paymentRouter);
+app.use('/transaction', isLoginAdmin, transactionRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
