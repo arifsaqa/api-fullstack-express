@@ -17,7 +17,7 @@
         <% payments[i]?.banks?.forEach(bank=> { %>
           <span class="badge badge-warning">
             <%= bank.ownerName %>
-              <%= bank.bankName %>-<%= bank.bankNumber %>
+             - <%= bank.bankNumber %>
           </span>
           <% }) %>
         </td>

@@ -5,8 +5,8 @@ const { setAlertAndRedirect, getAlertMessage } = require('../helpers/alert');
 async function index(req, res) {
   try {
     const alert = getAlertMessage(req);
-    const transactions = await Transaction.find();
-    console.log(transactions);
+    const transactions = await Transaction.find()
+      .populate('player');
     if (req.headers.ajax) {
       res.render('admin/transaction/table', { transactions, alert });
     } else {
@@ -17,7 +17,7 @@ async function index(req, res) {
     }
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/transaction');
-    throw error;
+    // throw error;
   }
 }
 

@@ -35,7 +35,7 @@ async function storeCategory(req, res) {
     await category.save();
 
     setAlertAndRedirect({ req, res }, 'Berhasil tambah kategori', '/category', 'success');
-    // res.redirect('/category');
+    
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/category');
     throw error;
@@ -59,7 +59,7 @@ async function updateCategory(req, res) {
       _id: id
     }, { name });
     setAlertAndRedirect({ req, res }, 'Berhasil update kategori', '/category', 'success');
-    // res.redirect('/category');
+    
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/category');
     throw error;
@@ -73,7 +73,7 @@ async function deleteCategory(req, res) {
       _id: id
     });
     setAlertAndRedirect({ req, res }, 'Berhasil hapus kategori', '/category', 'success');
-    // res.redirect('/category');
+    
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/category');
     throw error;
