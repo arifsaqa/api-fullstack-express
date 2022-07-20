@@ -60,7 +60,6 @@ async function updateTransaction(req, res) {
       _id: id
     }, { cointName, cointQuantity, price });
     setAlertAndRedirect({ req, res }, 'Berhasil update transaction', '/transaction', 'success');
-    // res.redirect('/transaction');
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/transaction');
     throw error;
@@ -74,10 +73,20 @@ async function deleteTransaction(req, res) {
       _id: id
     });
     setAlertAndRedirect({ req, res }, 'Berhasil hapus transaction', '/transaction', 'success');
-    // res.redirect('/transaction');
   } catch (error) {
     setAlertAndRedirect({ req, res }, error.message, '/transaction');
     throw error;
+  }
+}
+
+async function updateStatus(req, res) {
+  try {
+    const { id } = req.params;
+    const { status } = req.query;
+    await Transaction.findByIdAndUpdate({ _id: id }, { status });
+    setAlertAndRedirect({ req, res }, `Transaction is successfully ${status =='failed'?'rejected':'accepted'}.`, '/transaction', 'success');
+  } catch (error) {
+    
   }
 }
 
@@ -87,5 +96,6 @@ module.exports = {
   storeTransaction,
   editTransaction,
   updateTransaction,
-  deleteTransaction
+  deleteTransaction,
+  updateStatus
 }

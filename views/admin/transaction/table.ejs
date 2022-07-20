@@ -47,15 +47,22 @@
           <% } %>
         </td>
         <td>
-            <%= transactions[i]?.player?.name??'' %>
+            <%= transactions[i]?.player?.name??'-' %>
         </td>
         <td>
-          <form  
-          action="/payment/delete/<%= transactions[i]._id %>?_method=DELETE" 
-          method="post">
-            <a class="btn btn-warning btn-sm" href="/payment/edit/<%= transactions[i]._id %>">
-              <i class="fas fa-pencil-alt"></i> Edit</a>
-            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-trash"></i> Hapus</button>
+          <form 
+            style="display: inline-block;"  
+            action="/transaction/status/<%= transactions[i]._id %>?status=failed&_method=PUT" 
+            method="post"
+          >
+            <button class="btn btn-danger btn-sm" type="submit"><i class="fas fa-check"></i> Tolak</button>
+          </form>
+          <form 
+            style="display: inline-block;" 
+            action="/transaction/status/<%= transactions[i]._id %>?status=success&_method=PUT" 
+            method="post"
+          >
+            <button class="btn btn-info btn-sm" type="submit"><i class="fas fa-check"></i> Terima</button>
           </form>
         </td>
       </tr>
