@@ -18,14 +18,17 @@ var bankRouter = require('./app/bank/router');
 var paymentRouter = require('./app/payment/router');
 var usersRouter = require('./app/users/router');
 var transactionRouter = require('./app/transaction/router');
+var playerRouter = require('./app/player/router');
 const { isLoginAdmin } = require('./app/middleware/auth');
 
 
 var app = express();
+const URL = '/api/v1';
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
 app.use(session({
   secret: 'keyboard cat',
   resave: false,
@@ -44,7 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/adminlte', express.static(path.join(__dirname, '/node_modules/admin-lte')))
 
 app.use('/auth', usersRouter);
-app.use('/', isLoginAdmin, dashboardRouter);
+app.use('/', dashboardRouter);
 app.use('/dashboard', isLoginAdmin, dashboardRouter);
 app.use('/category', isLoginAdmin, categoryRouter);
 app.use('/nominal', isLoginAdmin, nominalRouter);
@@ -52,6 +55,9 @@ app.use('/voucher', isLoginAdmin, voucherRouter);
 app.use('/bank', isLoginAdmin, bankRouter);
 app.use('/payment', isLoginAdmin, paymentRouter);
 app.use('/transaction', isLoginAdmin, transactionRouter);
+
+//api
+app.use(`${URL}/players`, playerRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

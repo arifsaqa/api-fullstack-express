@@ -10,9 +10,9 @@ async function index(req, res) {
   const vouchers = await Voucher.countDocuments();
   const players = await Player.countDocuments();
   const categories = await Category.countDocuments();
-
-  console.log(transactions);
-
+  if (!req.session.user) {
+    res.redirect('/auth/signin');
+  }
   res.render('admin/dashboard/dashboard_view', {
     title: 'Dashboard',
     name: req.session.user.name,
